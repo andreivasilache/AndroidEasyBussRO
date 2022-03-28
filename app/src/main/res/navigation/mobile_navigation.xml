@@ -12,20 +12,20 @@
         tools:layout="@layout/fragment_login_register" />
 
     <fragment
+        android:id="@+id/plan_ride"
+        android:name="com.example.androideasybussro.RidesPlan"
+        android:label="Planificare cursa"
+        tools:layout="@layout/fragment_rides_plan" />
+
+    <fragment
+        android:id="@+id/history_rides"
+        android:name="com.example.androideasybussro.ridesHistory"
+        android:label="Istoric curse"
+        tools:layout="@layout/fragment_rides_history" />
+
+    <fragment
         android:id="@+id/upcoming_rides"
         android:name="com.example.androideasybussro.upcoming_rides"
         android:label="Curse viitoare"
         tools:layout="@layout/fragment_upcoming_rides" />
-
-    <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.androideasybussro.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.androideasybussro.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
 </navigation>

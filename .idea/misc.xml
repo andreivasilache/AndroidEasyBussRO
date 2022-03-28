@@ -5,12 +5,14 @@
       <map>
         <entry key="..\:/Code/AndroidEasyBussRo/app/src/main/res/drawable/side_nav_bar.xml" value="0.259" />
         <entry key="..\:/Code/AndroidEasyBussRo/app/src/main/res/layout/activity_auth.xml" value="0.12" />
-        <entry key="..\:/Code/AndroidEasyBussRo/app/src/main/res/layout/activity_main.xml" value="0.18333333333333332" />
+        <entry key="..\:/Code/AndroidEasyBussRo/app/src/main/res/layout/activity_main.xml" value="0.14772727272727273" />
         <entry key="..\:/Code/AndroidEasyBussRo/app/src/main/res/layout/activity_upcoming_trips.xml" value="0.18333333333333332" />
         <entry key="..\:/Code/AndroidEasyBussRo/app/src/main/res/layout/app_bar_main.xml" value="0.1" />
-        <entry key="..\:/Code/AndroidEasyBussRo/app/src/main/res/layout/content_main.xml" value="0.19298245614035087" />
+        <entry key="..\:/Code/AndroidEasyBussRo/app/src/main/res/layout/content_main.xml" value="0.1" />
         <entry key="..\:/Code/AndroidEasyBussRo/app/src/main/res/layout/fragment_gallery.xml" value="0.20068027210884354" />
         <entry key="..\:/Code/AndroidEasyBussRo/app/src/main/res/layout/fragment_login_register.xml" value="0.14041666666666666" />
+        <entry key="..\:/Code/AndroidEasyBussRo/app/src/main/res/layout/fragment_upcoming_rides.xml" value="0.17552083333333332" />
+        <entry key="..\:/Code/AndroidEasyBussRo/app/src/main/res/layout/nav_header_main.xml" value="0.22" />
         <entry key="..\:/Code/AndroidEasyBussRo/app/src/main/res/menu/main.xml" value="0.8027210884353742" />
       </map>
     </option>

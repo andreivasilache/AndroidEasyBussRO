@@ -6,19 +6,18 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/register_login"
-            android:icon="@drawable/ic_menu_camera"
             android:title="Auth" />
         <item
+            android:id="@+id/rides_plan"
+            android:title="Planificare cursa" />
+        <item
             android:id="@+id/upcoming_rides"
-            android:icon="@drawable/ic_menu_camera"
             android:title="Curse viitoare" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:id="@+id/history_rides"
+            android:title="Istoric curse" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:id="@+id/rides_history"
+            android:title="Orar curse" />
     </group>
 </menu>
