@@ -5,7 +5,6 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/register_login"
     >
-
     <fragment
         android:id="@+id/register_login"
         android:name="com.example.androideasybussro.loginRegister"
@@ -13,10 +12,10 @@
         tools:layout="@layout/fragment_login_register" />
 
     <fragment
-        android:id="@+id/plan_ride"
-        android:name="com.example.androideasybussro.RidesPlan"
+        android:id="@+id/ridePlan"
+        android:name="com.example.androideasybussro.ridePlan"
         android:label="Planificare cursa"
-        tools:layout="@layout/fragment_rides_plan" />
+        tools:layout="@layout/fragment_ride_plan" />
 
     <fragment
         android:id="@+id/history_rides"
@@ -30,4 +29,10 @@
         android:name="com.example.androideasybussro.upcoming_rides"
         android:label="Curse viitoare"
         tools:layout="@layout/fragment_upcoming_rides" />
+
+    <fragment
+        android:id="@+id/rides_schedule"
+        android:name="com.example.androideasybussro.ridesSchedule"
+        android:label="Orar curse"
+        tools:layout="@layout/fragment_rides_schedule" />
 </navigation>

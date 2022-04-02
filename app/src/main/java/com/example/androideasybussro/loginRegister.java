@@ -1,8 +1,10 @@
 package com.example.androideasybussro;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +14,18 @@ import android.widget.EditText;
 
 import com.example.androideasybussro.constants.MessageCodes;
 import com.example.androideasybussro.models.OnGetDataListener;
+import com.example.androideasybussro.models.Route;
+import com.example.androideasybussro.models.RouteDistance;
 import com.example.androideasybussro.models.User;
 import com.example.androideasybussro.services.AuthService;
+import com.example.androideasybussro.services.RouteDistancesService;
+import com.example.androideasybussro.services.RoutesService;
+import com.example.androideasybussro.state.Context;
+import com.example.androideasybussro.state.ContextEnum;
+import com.example.androideasybussro.state.Globe;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -23,6 +34,8 @@ import java.util.concurrent.ExecutionException;
  * create an instance of this fragment.
  */
 public class loginRegister extends Fragment {
+    Globe state = Globe.getGlobe();
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -63,6 +76,99 @@ public class loginRegister extends Fragment {
         }
     }
 
+//    private void preloadRouteDistances()  {
+//        RouteDistancesService routeDistancesService = new RouteDistancesService();
+//        routeDistancesService.getAllDistances(new OnGetDataListener<HashMap<String, RouteDistance>, MessageCodes>() {
+//            @Override
+//            public void onStart() {}
+//
+//            @Override
+//            public void onSuccess(HashMap<String, RouteDistance> data) {
+//                Context< HashMap<String, RouteDistance>> authContext = new Context();
+//                authContext.putItem("DISTANCES", data);
+//                state.putContext(ContextEnum.ROUTE_DISTANCES, authContext);
+//            }
+//
+//            @Override
+//            public void onFailed(MessageCodes error) {}
+//        });
+//    }
+
+//    private void preloadUserMetadata(String username){
+//        Context<String> authContext = new Context<>();
+//        authContext.putItem("USERNAME", username);
+//        state.putContext(ContextEnum.AUTHENTICATED_USER, authContext);
+//    }
+
+//    private void preloadAppBussRoutes() {
+//        RoutesService routesService = new RoutesService();
+//        routesService.getAllRoutes(new OnGetDataListener<List<Route>, MessageCodes>() {
+//            @Override
+//            public void onStart() {}
+//
+//            @Override
+//            public void onSuccess(List<Route> data) {
+//                Context<List<Route>> routesContext = new Context();
+//                routesContext.putItem("BUSS-ROUTES", data);
+//                state.putContext(ContextEnum.AVAIlABLE_ROUTES, routesContext);
+//            }
+//
+//            @Override
+//            public void onFailed(MessageCodes error) {}
+//
+//        });
+//
+//
+//    }
+
+    private void handleSuccessAuth(String username, View view){
+        Context<String> authContext = new Context<>();
+        authContext.putItem("USERNAME", username);
+        state.putContext(ContextEnum.AUTHENTICATED_USER, authContext);
+
+        RoutesService routesService = new RoutesService();
+        routesService.getAllRoutes(new OnGetDataListener<List<Route>, MessageCodes>() {
+            @Override
+            public void onStart() {}
+
+            @Override
+            public void onSuccess(List<Route> data) {
+                Context<List<Route>> routesContext = new Context();
+                routesContext.putItem("BUSS-ROUTES", data);
+                state.putContext(ContextEnum.AVAIlABLE_ROUTES, routesContext);
+
+                RouteDistancesService routeDistancesService = new RouteDistancesService();
+                routeDistancesService.getAllDistances(new OnGetDataListener<HashMap<String, RouteDistance>, MessageCodes>() {
+                    @Override
+                    public void onStart() {}
+
+                    @Override
+                    public void onSuccess(HashMap<String, RouteDistance> data) {
+                        Context< HashMap<String, RouteDistance>> authContext = new Context();
+                        authContext.putItem("DISTANCES", data);
+                        state.putContext(ContextEnum.ROUTE_DISTANCES, authContext);
+
+                        System.out.println("Data pre-loaded!");
+
+                        Navigation.findNavController(view).navigate(R.id.upcoming_rides);
+                    }
+
+                    @Override
+                    public void onFailed(MessageCodes error) {}
+                });
+            }
+
+            @Override
+            public void onFailed(MessageCodes error) {}
+
+        });
+
+
+//        preloadUserMetadata(username);
+//        preloadAppBussRoutes();
+//        preloadRouteDistances();
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Button loginBtn = getView().findViewById(R.id.loginBtn);
@@ -81,8 +187,8 @@ public class loginRegister extends Fragment {
                     public void onStart() { }
 
                     @Override
-                    public void onSuccess(MessageCodes data) {
-                        System.out.println(data);
+                    public void onSuccess(MessageCodes data)  {
+                        handleSuccessAuth(usernameField.getText().toString(), view);
                     }
 
                     @Override
@@ -111,7 +217,7 @@ public class loginRegister extends Fragment {
 
                     @Override
                     public void onSuccess(MessageCodes data) {
-                        System.out.println(data);
+                        handleSuccessAuth(usernameField.getText().toString(), view);
                     }
 
                     @Override

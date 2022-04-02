@@ -5,7 +5,7 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/rides_plan"
+            android:id="@+id/ridePlan"
             android:title="Planificare cursa" />
         <item
             android:id="@+id/upcoming_rides"
@@ -14,7 +14,7 @@
             android:id="@+id/history_rides"
             android:title="Istoric curse" />
         <item
-            android:id="@+id/rides_history"
+            android:id="@+id/rides_schedule"
             android:title="Orar curse" />
     </group>
 </menu>

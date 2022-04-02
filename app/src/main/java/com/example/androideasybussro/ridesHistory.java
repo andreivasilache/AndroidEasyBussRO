@@ -7,6 +7,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.example.androideasybussro.constants.MessageCodes;
+import com.example.androideasybussro.constants.RawTimeFilterKeys;
+import com.example.androideasybussro.models.OnGetDataListener;
+import com.example.androideasybussro.services.BoughtTripsService;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,6 +62,33 @@ public class ridesHistory extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        ListView listElements = getView().findViewById(R.id.listPastElements);
+        System.out.println("onViewCreated");
+        BoughtTripsService boughtTripsService = new BoughtTripsService();
+        final ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.route_view, R.id.textRouteView);
+        listElements.setAdapter(adapter);
+
+
+
+        boughtTripsService.getAllBoughtItemsLabels(RawTimeFilterKeys.PAST, new OnGetDataListener<List<String>, MessageCodes>() {
+            @Override
+            public void onStart() { }
+
+            @Override
+            public void onSuccess(List<String> data) {
+                if(data.size() > 0){
+                    adapter.addAll(data);
+                }else{
+                    adapter.add("Nu au fost gasite curse");
+                }
+            }
+
+            @Override
+            public void onFailed(MessageCodes error) { }
+        });
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.example.androideasybussro.services;
 
+import com.example.androideasybussro.constants.MessageCodes;
+import com.example.androideasybussro.models.OnGetDataListener;
 import com.example.androideasybussro.models.RouteDistance;
 import com.example.androideasybussro.models.Station;
 import com.google.android.gms.tasks.Tasks;
@@ -26,22 +28,37 @@ public class RouteDistancesService {
         db.collection(distanceService).document(getKeyNameFromDistance(routeDistance)).set(routeDistance);
     }
 
-    public HashMap<String, RouteDistance> getAllDistances() throws ExecutionException, InterruptedException {
+    public void getAllDistances(final OnGetDataListener<HashMap<String, RouteDistance>, MessageCodes> onDistanceReceive)  {
         HashMap<String, RouteDistance> toBeReturned = new HashMap<>();
 
-        QuerySnapshot future= Tasks.await(db.collection(distanceService).get());
-        List<DocumentSnapshot> documents = future.getDocuments();
+//        QuerySnapshot future= Tasks.await(db.collection(distanceService).get());
+//        List<DocumentSnapshot> documents = future.getDocuments();
 
+        db.collection(distanceService).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot future = task.getResult();
+                List<DocumentSnapshot> documents = future.getDocuments();
 
-        for (DocumentSnapshot document : documents) {
-            String from = (String) document.getData().get("from");
-            String to = (String) document.getData().get("to");
-            int distance = ((Long) document.getData().get("distance")).intValue();
+                for (DocumentSnapshot document : documents) {
+                    String from = (String) document.getData().get("from");
+                    String to = (String) document.getData().get("to");
+                    int distance = ((Long) document.getData().get("distance")).intValue();
 
-            toBeReturned.put(document.getId(), new RouteDistance(from, to, distance));
-        }
+                    toBeReturned.put(document.getId(), new RouteDistance(from, to, distance));
+                }
+                onDistanceReceive.onSuccess(toBeReturned);
+            }
 
-        return toBeReturned;
+        });
+//        for (DocumentSnapshot document : documents) {
+//            String from = (String) document.getData().get("from");
+//            String to = (String) document.getData().get("to");
+//            int distance = ((Long) document.getData().get("distance")).intValue();
+//
+//            toBeReturned.put(document.getId(), new RouteDistance(from, to, distance));
+//        }
+//
+//        return toBeReturned;
     }
 
     public int getDistanceOfRoutes(List<Station> routes, HashMap<String, RouteDistance> distancesHash){

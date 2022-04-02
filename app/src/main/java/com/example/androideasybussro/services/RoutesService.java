@@ -4,7 +4,10 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.androideasybussro.constants.MessageCodes;
+import com.example.androideasybussro.models.OnGetDataListener;
 import com.example.androideasybussro.models.Route;
+import com.example.androideasybussro.models.RouteDistance;
 import com.example.androideasybussro.models.Station;
 import com.google.android.gms.tasks.Tasks;
 
@@ -25,18 +28,21 @@ public class RoutesService {
         db.collection(routesCollection).document(id).set(route);
     }
 
-    public List<Route> getAllRoutes() throws ExecutionException, InterruptedException {
+    public void getAllRoutes(final OnGetDataListener<List<Route>, MessageCodes> onRoutesReceive) {
         List<Route> toBeReturned = new Vector<>();
 
-        QuerySnapshot future= Tasks.await(db.collection(routesCollection).get());
-        List<DocumentSnapshot> documents = future.getDocuments();
+        db.collection(routesCollection).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot future = task.getResult();
+                List<DocumentSnapshot> documents = future.getDocuments();
+                for (DocumentSnapshot document : documents) {
+                    ArrayList<Station> currentStationList = (ArrayList<Station>) document.getData().get("stations");
+                    toBeReturned.add(new Route(currentStationList, document.getId()));
+                }
+                onRoutesReceive.onSuccess(toBeReturned);
+            }
+        });
 
-        for (DocumentSnapshot document : documents) {
-            ArrayList<Station> currentStationList = (ArrayList<Station>) document.getData().get("stations");
-            toBeReturned.add(new Route(currentStationList, document.getId()));
-        }
-
-        return toBeReturned;
     }
 
     public static Station getStationFromHashMap(Map<String, Object> toBeParsed){
