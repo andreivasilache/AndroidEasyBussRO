@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/upcoming_rides">
+    app:startDestination="@+id/register_login"
+    >
 
     <fragment
         android:id="@+id/register_login"
@@ -21,7 +22,8 @@
         android:id="@+id/history_rides"
         android:name="com.example.androideasybussro.ridesHistory"
         android:label="Istoric curse"
-        tools:layout="@layout/fragment_rides_history" />
+        tools:layout="@layout/fragment_rides_history"
+        />
 
     <fragment
         android:id="@+id/upcoming_rides"

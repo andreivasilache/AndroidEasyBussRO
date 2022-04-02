@@ -7,8 +7,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
+import com.example.androideasybussro.constants.MessageCodes;
+import com.example.androideasybussro.models.OnGetDataListener;
 import com.example.androideasybussro.models.User;
+import com.example.androideasybussro.services.AuthService;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,6 +61,70 @@ public class loginRegister extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        Button loginBtn = getView().findViewById(R.id.loginBtn);
+        Button registerBtn = getView().findViewById(R.id.registerBtn);
+
+        loginBtn.setOnClickListener(view1 -> {
+            AuthService authService = new AuthService();
+            EditText usernameField = getView().findViewById(R.id.email);
+            EditText passwordField = getView().findViewById(R.id.password);
+
+            User loggedUser = new User(usernameField.getText().toString(), passwordField.getText().toString());
+
+            try {
+                authService.loginUser(loggedUser, new OnGetDataListener<MessageCodes, MessageCodes>() {
+                    @Override
+                    public void onStart() { }
+
+                    @Override
+                    public void onSuccess(MessageCodes data) {
+                        System.out.println(data);
+                    }
+
+                    @Override
+                    public void onFailed(MessageCodes error) {
+                        System.out.println(error);
+                    }
+                });
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        registerBtn.setOnClickListener(view1 -> {
+            AuthService authService = new AuthService();
+
+            EditText usernameField = getView().findViewById(R.id.email);
+            EditText passwordField = getView().findViewById(R.id.password);
+
+            User loggedUser = new User(usernameField.getText().toString(), passwordField.getText().toString());
+
+            try {
+                authService.registerUser(loggedUser, new OnGetDataListener<MessageCodes, MessageCodes>() {
+                    @Override
+                    public void onStart() { }
+
+                    @Override
+                    public void onSuccess(MessageCodes data) {
+                        System.out.println(data);
+                    }
+
+                    @Override
+                    public void onFailed(MessageCodes error) {
+                        System.out.println(error);
+                    }
+                });
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
