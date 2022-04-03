@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.androideasybussro.constants.MessageCodes;
 import com.example.androideasybussro.models.OnGetDataListener;
@@ -173,6 +174,7 @@ public class loginRegister extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Button loginBtn = getView().findViewById(R.id.loginBtn);
         Button registerBtn = getView().findViewById(R.id.registerBtn);
+        TextView errorText =  getView().findViewById(R.id.error);
 
         loginBtn.setOnClickListener(view1 -> {
             AuthService authService = new AuthService();
@@ -184,7 +186,9 @@ public class loginRegister extends Fragment {
             try {
                 authService.loginUser(loggedUser, new OnGetDataListener<MessageCodes, MessageCodes>() {
                     @Override
-                    public void onStart() { }
+                    public void onStart() {
+                        errorText.setText("");
+                    }
 
                     @Override
                     public void onSuccess(MessageCodes data)  {
@@ -193,7 +197,15 @@ public class loginRegister extends Fragment {
 
                     @Override
                     public void onFailed(MessageCodes error) {
-                        System.out.println(error);
+                        if(error == MessageCodes.NOT_FOUND){
+                            errorText.setText("Not found");
+                        }
+
+                        if(error == MessageCodes.INVALID_PASSWORD){
+                            errorText.setText("Invalid password");
+                        }
+
+                        errorText.setText("Something went wrong");
                     }
                 });
             } catch (ExecutionException e) {
@@ -213,7 +225,9 @@ public class loginRegister extends Fragment {
             try {
                 authService.registerUser(loggedUser, new OnGetDataListener<MessageCodes, MessageCodes>() {
                     @Override
-                    public void onStart() { }
+                    public void onStart() {
+                        errorText.setText("");
+                    }
 
                     @Override
                     public void onSuccess(MessageCodes data) {
@@ -222,7 +236,11 @@ public class loginRegister extends Fragment {
 
                     @Override
                     public void onFailed(MessageCodes error) {
-                        System.out.println(error);
+                        if(error == MessageCodes.ALREADY_EXISTS){
+                            errorText.setText("Already exists");
+                        }
+
+                        errorText.setText("Something went wrong");
                     }
                 });
             } catch (ExecutionException e) {

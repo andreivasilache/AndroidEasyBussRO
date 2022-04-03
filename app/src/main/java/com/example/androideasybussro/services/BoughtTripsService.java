@@ -69,35 +69,37 @@ public class BoughtTripsService {
     };
 
     public void getAllBoughtItemsLabels(RawTimeFilterKeys filter, final OnGetDataListener<List<String>, MessageCodes> onResult) {
-        String currentUserID = (String) store.getContext(ContextEnum.AUTHENTICATED_USER).getState("USERNAME");
-        List<String> toBeReturned = new ArrayList<>();
+        if(!store.isEmptyGlobe()){
+            String currentUserID = (String) store.getContext(ContextEnum.AUTHENTICATED_USER).getState("USERNAME");
+            List<String> toBeReturned = new ArrayList<>();
 
 
-        getFirebaseFilterByQuery(filter, new OnGetDataListener<QuerySnapshot, MessageCodes>() {
-            @Override
-            public void onStart() {}
+            getFirebaseFilterByQuery(filter, new OnGetDataListener<QuerySnapshot, MessageCodes>() {
+                @Override
+                public void onStart() {}
 
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onSuccess(QuerySnapshot data) {
-                List<DocumentSnapshot> documents = data.getDocuments();
-                for (DocumentSnapshot document : documents) {
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void onSuccess(QuerySnapshot data) {
+                    List<DocumentSnapshot> documents = data.getDocuments();
+                    for (DocumentSnapshot document : documents) {
 
-                    String userID =  (String) document.getData().get("userID");
-                    if(userID.equals(currentUserID)){
-                        long serverDate = (long) document.getData().get("dateTimestamp");
+                        String userID =  (String) document.getData().get("userID");
+                        if(userID.equals(currentUserID)){
+                            long serverDate = (long) document.getData().get("dateTimestamp");
 
-                        String currentLabel = (String) document.getData().get("label");
+                            String currentLabel = (String) document.getData().get("label");
 
-                        String parsedLocalDate = Instant.ofEpochMilli(serverDate).atZone(ZoneId.systemDefault()).toLocalDate().toString();
-                        toBeReturned.add("["+parsedLocalDate+ "]"+currentLabel);
+                            String parsedLocalDate = Instant.ofEpochMilli(serverDate).atZone(ZoneId.systemDefault()).toLocalDate().toString();
+                            toBeReturned.add("["+parsedLocalDate+ "]"+currentLabel);
+                        }
                     }
+                    onResult.onSuccess(toBeReturned);
                 }
-                onResult.onSuccess(toBeReturned);
-            }
 
-            @Override
-            public void onFailed(MessageCodes error) {}
-        });
+                @Override
+                public void onFailed(MessageCodes error) {}
+            });
+        }
     };
 }

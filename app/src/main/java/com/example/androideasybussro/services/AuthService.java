@@ -67,8 +67,9 @@ public class AuthService {
                 public void onFailed(MessageCodes error) {
                     if(error == MessageCodes.NOT_FOUND){
                         loginListener.onFailed(MessageCodes.NOT_FOUND);
+                    }else{
+                        loginListener.onFailed(MessageCodes.SOMETHING_IS_WRONG);
                     }
-                    loginListener.onFailed(MessageCodes.SOMETHING_IS_WRONG);
                 }
             });
 

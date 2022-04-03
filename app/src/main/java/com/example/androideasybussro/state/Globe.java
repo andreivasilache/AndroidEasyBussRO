@@ -33,4 +33,9 @@ public class Globe {
     public void emptyGlobe() {
         contextCollection.clear();
     }
+
+    public boolean isEmptyGlobe() {
+        return contextCollection.isEmpty();
+    }
+
 }

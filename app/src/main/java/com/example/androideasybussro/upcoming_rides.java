@@ -75,7 +75,7 @@ public class upcoming_rides extends Fragment {
         listElements.setAdapter(adapter);
 
 
-
+    if(boughtTripsService != null){
         boughtTripsService.getAllBoughtItemsLabels(RawTimeFilterKeys.FUTURE, new OnGetDataListener<List<String>, MessageCodes>() {
             @Override
             public void onStart() { }
@@ -92,6 +92,8 @@ public class upcoming_rides extends Fragment {
             @Override
             public void onFailed(MessageCodes error) { }
         });
+     }
+
     }
 
     @Override
