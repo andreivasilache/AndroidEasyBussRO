@@ -33,9 +33,15 @@ public class BoughtTripsService {
     public static final String boughtItemsKey = "bought_trips";
 
 
-    public void addBoughtRoute(BoughtTrip route) throws ExecutionException, InterruptedException {
+    public void addBoughtRoute(BoughtTrip route, final OnGetDataListener<MessageCodes, MessageCodes> onData) {
         String id = db.collection(boughtItemsKey).document().getId();
-        Void event = Tasks.await(db.collection(boughtItemsKey).document(id).set(route));
+
+
+        db.collection(boughtItemsKey).document(id).set(route).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                onData.onSuccess(MessageCodes.SUCCESS);
+            }
+        });
     }
 
     private void getFirebaseFilterByQuery(RawTimeFilterKeys filter, final OnGetDataListener<QuerySnapshot, MessageCodes> onData) {

@@ -27,10 +27,10 @@
 
             <Spinner
                 android:id="@+id/from"
-                android:layout_width="438dp"
+                android:layout_width="503dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
-                android:layout_marginRight="125dp"
+                android:layout_marginRight="65dp"
                 android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dropdown" />
 
@@ -62,11 +62,14 @@
                 android:layout_marginLeft="60dp"
                 ></DatePicker>
 
-            <ListView
+
+            <Spinner
+                android:layout_marginLeft="60dp"
                 android:id="@+id/results"
-                android:layout_width="507dp"
-                android:layout_height="400dp"
-                android:layout_marginLeft="60dp"></ListView>
+                android:layout_width="397dp"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown" />
 
         </LinearLayout>
 
@@ -83,7 +86,7 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/search"
+                android:id="@+id/buy"
                 android:layout_width="1080dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="60dp"
